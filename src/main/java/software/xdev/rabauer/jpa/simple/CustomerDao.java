@@ -1,4 +1,4 @@
-package software.xdev.rabauer.jpa;
+package software.xdev.rabauer.jpa.simple;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -6,6 +6,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import software.xdev.rabauer.jpa.HibernateUtil;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CustomerDao
 		EntityManager em = HibernateUtil.getSessionFactory().createEntityManager();
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
-		CriteriaQuery criteriaQuery = criteriaBuilder.createQuery();
+		CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
 		Root customer = criteriaQuery.from(Customer.class);
 		criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(customer.get("age"), minAge));
 		Query query = em.createQuery(criteriaQuery);
@@ -56,7 +57,8 @@ public class CustomerDao
 
 		final CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
 		final Root<Customer>          rootCustomer  = criteriaQuery.from(Customer.class);
-		criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(rootCustomer.get(software.xdev.rabauer.jpa.Customer_.age), minAge));
+		criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(rootCustomer.get(
+			software.xdev.rabauer.jpa.simple.Customer_.age), minAge));
 		final TypedQuery<Customer> typedQuery    = em.createQuery(criteriaQuery);
 		return typedQuery.getResultList();
 	}
@@ -80,10 +82,10 @@ public class CustomerDao
 
 		final CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
 		final Root<Customer>          rootCustomer  = criteriaQuery.from(Customer.class);
-		criteriaQuery.groupBy(rootCustomer.get(software.xdev.rabauer.jpa.Customer_.lastName));
+		criteriaQuery.groupBy(rootCustomer.get(software.xdev.rabauer.jpa.simple.Customer_.lastName));
 		criteriaQuery.multiselect(
-			rootCustomer.get(software.xdev.rabauer.jpa.Customer_.lastName),
-			criteriaBuilder.avg(rootCustomer.get(software.xdev.rabauer.jpa.Customer_.age))
+			rootCustomer.get(software.xdev.rabauer.jpa.simple.Customer_.lastName),
+			criteriaBuilder.avg(rootCustomer.get(software.xdev.rabauer.jpa.simple.Customer_.age))
 		);
 		TypedQuery<Object[]> typedQuery = em.createQuery(criteriaQuery);
 		return typedQuery.getResultList();

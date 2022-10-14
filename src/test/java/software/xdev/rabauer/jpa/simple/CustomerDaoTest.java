@@ -1,8 +1,9 @@
-package software.xdev.rabauer.jpa;
+package software.xdev.rabauer.jpa.simple;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import software.xdev.rabauer.jpa.HibernateUtil;
 
 import java.util.List;
 
